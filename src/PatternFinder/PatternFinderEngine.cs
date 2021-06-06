@@ -95,8 +95,7 @@ namespace PatternFinder
 
          foreach (var pattern in filePatterns)
          {
-            var cleanPattern = pattern.Trim();
-            var files = dirInfo.EnumerateFiles(cleanPattern, System.IO.SearchOption.AllDirectories);
+            var files = dirInfo.EnumerateFiles(pattern, System.IO.SearchOption.AllDirectories);
             foreach (var file in files)
             {
                var dirName = file.DirectoryName as string;
