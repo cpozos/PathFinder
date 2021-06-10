@@ -71,12 +71,12 @@ namespace PatternFinder
          return await Task.Run(() =>
          {
             var matchesInfo = new FileMatchesInfo(fileInfo);
-            object locker = new object();
+            object locker = new();
 
             Parallel.ForEach(System.IO.File.ReadAllLines(fileInfo.FullName), () => new List<LineMatchInfo>(), (line, status, index, list) =>
             {
                var matches = _matcher.Match(line, (uint)index);
-               list.AddRange(matches);
+               list.Add(matches);
                return list;
             },
             (finalResult) =>

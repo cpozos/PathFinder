@@ -14,9 +14,13 @@ namespace PatternFinder
          _regex = new Regex(pattern);
       }
 
-      public List<LineMatchInfo> Match(string line, uint lineIndex)
+      public LineMatchInfo Match(string line, uint lineIndex)
       {
-         var lineMatches = new List<LineMatchInfo>();
+         var lineMatches = new LineMatchInfo
+         {
+            LineIndex = lineIndex
+         };
+
          var matches = _regex.Matches(line);
 
          if (matches.Count > 0)
@@ -26,13 +30,11 @@ namespace PatternFinder
                if (!match.Success)
                   continue;
 
-               var matchInfo = new LineMatchInfo
+               lineMatches.Matches.Add(new MatchInfo
                {
-                  Line = lineIndex,
                   Column = (uint)match.Index,
                   Value = match.Value
-               };
-               lineMatches.Add(matchInfo);
+               });
             }
          }
 

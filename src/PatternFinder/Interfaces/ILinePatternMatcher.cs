@@ -5,6 +5,6 @@ namespace PatternFinder.Interfaces
 {
    public interface ILinePatternMatcher
    {
-      List<LineMatchInfo> Match(string line, uint lineIndex);
+      LineMatchInfo Match(string line, uint lineIndex);
    }
 }

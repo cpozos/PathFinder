@@ -1,9 +1,11 @@
-﻿namespace PatternFinder.Models
+﻿using System.Collections.Generic;
+
+namespace PatternFinder.Models
 {
    public class LineMatchInfo
    {
-      public uint Line { get; set; }
-      public uint Column { get; set; }
-      public string Value { get; set; }
+      public uint LineIndex { get; set; }
+
+      public List<MatchInfo> Matches { get; init; } = new();
    }
 }
