@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using PatternFinder.Models;
+﻿using PatternFinder.Entities;
 
 namespace PatternFinder.Interfaces
 {

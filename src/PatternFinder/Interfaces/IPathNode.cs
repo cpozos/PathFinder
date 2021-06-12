@@ -2,6 +2,8 @@
 {
    public interface IPathNode
    {
-      public string Path { get; set; }
+      public string Path { get; init; }
+      public bool IsDirectory { get; }
+      public bool IsFile { get; }
    }
 }
