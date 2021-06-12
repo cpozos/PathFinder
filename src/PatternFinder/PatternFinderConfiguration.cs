@@ -1,54 +1,33 @@
 ﻿using PatternFinder.Interfaces;
-using PatternFinder.Models;
+using System;
 
 namespace PatternFinder
 {
    public record PatternFinderConfiguration
    {
-      public LookingDirectoryConfiguration DirectoryConfiguration { get; set; }
-      public LookingFileConfiguration FileConfiguration { get; set; }
+      public PathConfiguration PathConfiguration { get; init; }
+      public FilterConfiguration FilterConfiguration { get; init; }
+      public ILinePatternMatcher Matcher { get; init; }
 
-      public FilterConfiguration FilterConfiguration { get; set; }
-      public PathConfiguration PathConfiguration { get; set; }
-      public ILinePatternMatcher Matcher { get; set; }
-
-      internal PatternFinderConfiguration()
+      internal PatternFinderConfiguration(PathConfiguration pathConfiguration, FilterConfiguration filterConfiguration, ILinePatternMatcher matcher)
       {
-      }
-
-      public PatternFinderConfiguration(LookingFileConfiguration fileConfiguration, ILinePatternMatcher matcher)
-         : this(matcher)
-      {
-         FileConfiguration = fileConfiguration;
-      }
-
-      public PatternFinderConfiguration(LookingDirectoryConfiguration directoryConfiguration, ILinePatternMatcher matcher)
-         : this(matcher)
-      {
-         DirectoryConfiguration = directoryConfiguration;
-      }
-
-      public PatternFinderConfiguration(PathConfiguration pathConfiguration, FilterConfiguration filterConfiguration, ILinePatternMatcher matcher)
-         : this(matcher)
-      {
-         FilterConfiguration = filterConfiguration;
          PathConfiguration = pathConfiguration;
-      }
-
-      private PatternFinderConfiguration(ILinePatternMatcher matcher)
-      {
+         FilterConfiguration = filterConfiguration;
          Matcher = matcher;
+
+         ValidateConfiguration(this);
       }
-   }
 
-   public record LookingDirectoryConfiguration
-   {
-      public Directory Directory { get; init; }
-      public bool Recursive { get; init; }
-   }
+      private static void ValidateConfiguration(PatternFinderConfiguration config)
+      {
+         if (config is null)
+            throw new ArgumentNullException("Settings are null");
 
-   public record LookingFileConfiguration
-   {
-      public File File { get; init; }
+         if (config.Matcher is null)
+            throw new ArgumentNullException($"{nameof(config.Matcher)} is null");
+
+         if (config.PathConfiguration is null)
+            throw new ArgumentNullException($"{nameof(config.PathConfiguration)} is null");
+      }
    }
 }
