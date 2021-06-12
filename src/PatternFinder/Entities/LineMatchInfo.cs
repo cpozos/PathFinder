@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace PatternFinder.Models
+namespace PatternFinder.Entities
 {
    public class LineMatchInfo
    {

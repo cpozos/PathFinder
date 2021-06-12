@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using PatternFinder.Interfaces;
-using PatternFinder.Models;
 
-namespace PatternFinder
+namespace PatternFinder.Entities
 {
    public class LineRegexPatternMatcher : ILinePatternMatcher
    {

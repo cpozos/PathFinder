@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace PatternFinder
+﻿namespace PatternFinder.Configuration
 {
    public class FilterConfiguration
    {

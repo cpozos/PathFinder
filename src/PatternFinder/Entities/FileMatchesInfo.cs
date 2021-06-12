@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace PatternFinder.Models
+namespace PatternFinder.Entities
 {
    public class FileMatchesInfo
    {

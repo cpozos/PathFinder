@@ -1,4 +1,4 @@
-﻿namespace PatternFinder.Models
+﻿namespace PatternFinder.Entities
 {
    public class MatchInfo
    {

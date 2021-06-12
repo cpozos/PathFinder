@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 using PatternFinder;
+using PatternFinder.Configuration;
+using PatternFinder.Entities;
 
 namespace Test
 {
@@ -7,7 +9,7 @@ namespace Test
    {
       static async Task Main(string[] args)
       {
-         var dirConfig = new PathConfiguration(@"D:\TextFinderTestDir");
+         var dirConfig = new PathNode(@"D:\TextFinderTestDir");
          var filterConfig = new FilterConfiguration("!*.txt;*.py", "!dir*");
 
 
@@ -18,7 +20,6 @@ namespace Test
          {
             var info = match.FileInfo;
          }
-
       }
    }
 }

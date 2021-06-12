@@ -2,7 +2,8 @@
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using PatternFinder.Interfaces;
-using PatternFinder.Models;
+using PatternFinder.Entities;
+using PatternFinder.Configuration;
 
 namespace PatternFinder
 {
@@ -11,7 +12,7 @@ namespace PatternFinder
       private readonly PatternFinderConfiguration _configuration;
       private readonly ILinePatternMatcher _matcher;
 
-      public bool IsDirectory => _configuration.PathConfiguration.IsDirectory;
+      public bool IsDirectory => _configuration.PathNode.IsDirectory;
 
       internal PatternFinderEngine(PatternFinderConfiguration config)
       {
@@ -31,8 +32,7 @@ namespace PatternFinder
             return list;
          }
 
-
-         var fileMatches = await GetMatchesInfoAsync(new System.IO.FileInfo(_configuration.PathConfiguration.Path));
+         var fileMatches = await GetMatchesInfoAsync(new System.IO.FileInfo(_configuration.PathNode.Path));
          return new List<FileMatchesInfo>() { 
             fileMatches 
          };
@@ -41,7 +41,7 @@ namespace PatternFinder
 
       public List<FileMatchesInfo> FindMatchesInsideDirectory()
       {
-         var path = _configuration.PathConfiguration.Path;
+         var path = _configuration.PathNode.Path;
 
          var files = MultiEnumerateFiles(path, _configuration.FilterConfiguration.FilesFilterPattern, _configuration.FilterConfiguration.DirectoriesFilterPattern);
 
