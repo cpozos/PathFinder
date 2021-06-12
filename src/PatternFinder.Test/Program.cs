@@ -1,7 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using PatternFinder;
-using PatternFinder.Models;
 
 namespace Test
 {
@@ -10,15 +8,15 @@ namespace Test
       static async Task Main(string[] args)
       {
          var dirConfig = new PathConfiguration(@"D:\TextFinderTestDir");
-         var filter = new FilterConfiguration("!*.txt;*.py", "!dir*");
+         var filterConfig = new FilterConfiguration("!*.txt;*.py", "!dir*");
 
-         var finder = PatternFinderEngineBuilder.Build(dirConfig, "Hola", filter);
 
-         var res = await finder.FindMatchesAsync();
+         var finder = PatternFinderEngineBuilder.Build("Hola", dirConfig, filterConfig);
+         var results = await finder.FindMatchesAsync();
 
-         foreach (var r in res)
+         foreach (var match in results)
          {
-            var a = r.FileInfo;
+            var info = match.FileInfo;
          }
 
       }
