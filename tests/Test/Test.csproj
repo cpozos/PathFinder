@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PatternFinder\PatternFinder.csproj" />
+    <ProjectReference Include="..\..\src\PatternFinder\PatternFinder.csproj" />
   </ItemGroup>
 
 </Project>
