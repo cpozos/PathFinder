@@ -10,14 +10,12 @@ namespace PatternFinder
    public class PatternFinderEngine
    {
       private readonly PatternFinderConfiguration _configuration;
-      private readonly ILinePatternMatcher _matcher;
 
       public bool IsDirectory => _configuration.PathNode.IsDirectory;
 
       internal PatternFinderEngine(PatternFinderConfiguration config)
       {
          _configuration = config;
-         _matcher = config.Matcher;
       }
 
       public async Task<List<FileMatchesInfo>> FindMatchesAsync()
@@ -75,7 +73,7 @@ namespace PatternFinder
 
             Parallel.ForEach(System.IO.File.ReadAllLines(fileInfo.FullName), () => new List<LineMatchInfo>(), (line, status, index, list) =>
             {
-               var matches = _matcher.Match(line, (uint)index);
+               var matches = _configuration.Matcher.Match(line, (uint)index);
                list.Add(matches);
                return list;
             },
@@ -98,9 +96,7 @@ namespace PatternFinder
             var files = dirInfo.EnumerateFiles(pattern, System.IO.SearchOption.AllDirectories);
             foreach (var file in files)
             {
-               var dirName = file.DirectoryName as string;
-
-               if (dirName is null || string.Equals(dirName.ToString(), dirInfo.FullName.ToString()))
+               if (file.DirectoryName is not string dirName || string.Equals(dirName.ToString(), dirInfo.FullName.ToString()))
                {
                   yield return file;
                   continue;
