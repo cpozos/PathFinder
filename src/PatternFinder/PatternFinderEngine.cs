@@ -1,52 +1,41 @@
 ﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using PatternFinder.Interfaces;
 using PatternFinder.Entities;
 using PatternFinder.Configuration;
+using System.Linq;
 
 namespace PatternFinder
 {
    public class PatternFinderEngine
    {
+      private static readonly object listLocker = new();
+      private readonly SortedList<int, FileMatchesInfo> _matchesList = new();
       private readonly PatternFinderConfiguration _configuration;
-      private readonly ILinePatternMatcher _matcher;
-
+      
       public bool IsDirectory => _configuration.PathNode.IsDirectory;
 
       internal PatternFinderEngine(PatternFinderConfiguration config)
-      {
-         _configuration = config;
-         _matcher = config.Matcher;
-      }
+         => _configuration = config;
 
-      public async Task<List<FileMatchesInfo>> FindMatchesAsync()
+      public async Task<IEnumerable<FileMatchesInfo>> FindMatchesAsync()
       {
+         _matchesList.Clear();
+
          if (IsDirectory)
          {
-            var list = await Task.Run(() =>
-            {
-               return FindMatchesInsideDirectory();
-            });
-
-            return list;
+            return await Task.Run(() => FindMatchesInsideDirectory());
          }
 
          var fileMatches = await GetMatchesInfoAsync(new System.IO.FileInfo(_configuration.PathNode.Path));
-         return new List<FileMatchesInfo>() { 
-            fileMatches 
-         };
+         _matchesList.Add(fileMatches.GetHashCode(), fileMatches);
+         return GetFoundMatches();
       }
 
-
-      public List<FileMatchesInfo> FindMatchesInsideDirectory()
+      private IEnumerable<FileMatchesInfo> FindMatchesInsideDirectory()
       {
          var path = _configuration.PathNode.Path;
 
-         var files = MultiEnumerateFiles(path, _configuration.FilterConfiguration.FilesFilterPattern, _configuration.FilterConfiguration.DirectoriesFilterPattern);
-
-         var matchesList = new List<FileMatchesInfo>();
-         object locker = new object();
+         var files = FilesProvider.GetFiles(path, _configuration.FilterConfiguration.FilesFilterPattern, _configuration.FilterConfiguration.DirectoriesFilterPattern);
 
          Parallel.ForEach(files, () => new FileMatchesInfo(),
          (file, state, matchesInfo) =>
@@ -58,15 +47,15 @@ namespace PatternFinder
          {
             if (finalMatchesInfo.Success)
             {
-               lock (locker)
-                  matchesList.Add(finalMatchesInfo);
+               lock (listLocker)
+                  _matchesList.Add(finalMatchesInfo.GetHashCode(), finalMatchesInfo);
             }
          });
 
-         return matchesList;
+         return GetFoundMatches();
       }
 
-      public async Task<FileMatchesInfo> GetMatchesInfoAsync(System.IO.FileInfo fileInfo)
+      private async Task<FileMatchesInfo> GetMatchesInfoAsync(System.IO.FileInfo fileInfo)
       {
          return await Task.Run(() =>
          {
@@ -75,7 +64,7 @@ namespace PatternFinder
 
             Parallel.ForEach(System.IO.File.ReadAllLines(fileInfo.FullName), () => new List<LineMatchInfo>(), (line, status, index, list) =>
             {
-               var matches = _matcher.Match(line, (uint)index);
+               var matches = _configuration.Matcher.Match(line, (uint)index);
                list.Add(matches);
                return list;
             },
@@ -89,51 +78,12 @@ namespace PatternFinder
          });
       }
 
-      private static IEnumerable<System.IO.FileInfo> MultiEnumerateFiles(string path, string[] filePatterns, string[] dirPatterns)
+      public IEnumerable<FileMatchesInfo> GetFoundMatches()
       {
-         var dirInfo = new System.IO.DirectoryInfo(path);
-
-         foreach (var pattern in filePatterns)
+         foreach (var kvp in _matchesList)
          {
-            var files = dirInfo.EnumerateFiles(pattern, System.IO.SearchOption.AllDirectories);
-            foreach (var file in files)
-            {
-               var dirName = file.DirectoryName as string;
-
-               if (dirName is null || string.Equals(dirName.ToString(), dirInfo.FullName.ToString()))
-               {
-                  yield return file;
-                  continue;
-               }
-
-               if (MatchAnyPattern(file.Directory.Name, dirPatterns))
-                  yield return file;
-            }
+            yield return kvp.Value;
          }
-      }
-
-      private static bool MatchAnyPattern(string directoryName, string[] directoryFilterPatterns)
-      {
-         bool matched = false;
-         foreach (var pattern in directoryFilterPatterns)
-         {
-            Regex regex;
-            if (pattern.StartsWith('!'))
-            {
-               regex = new Regex(pattern.Substring(1, pattern.Length-1));
-               matched = !regex.IsMatch(directoryName);
-            }
-            else
-            {
-               regex = new Regex(pattern);
-               matched = regex.IsMatch(pattern);
-            }
-
-            if (matched)
-               break;
-         }
-
-         return matched;
       }
    }
 }
