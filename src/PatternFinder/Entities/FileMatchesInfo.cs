@@ -8,7 +8,6 @@ namespace PatternFinder.Entities
       public FileInfo FileInfo { get; set; }
       public List<LineMatchInfo> Matches { get; init; } = new List<LineMatchInfo>();
       public bool Success => Matches.Count > 0;
-
       public FileMatchesInfo()
       {
 
@@ -18,7 +17,6 @@ namespace PatternFinder.Entities
       {
          FileInfo = fileInfo;
       }
-
 
       public void AddMatch(LineMatchInfo match)
       {
@@ -35,5 +33,8 @@ namespace PatternFinder.Entities
 
          Matches.AddRange(matchInfos);
       }
+
+      public override int GetHashCode()
+         => FileInfo.FullName.GetHashCode(System.StringComparison.CurrentCulture);
    }
 }
