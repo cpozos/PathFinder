@@ -4,4 +4,8 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="PatternReplacer.cs~RF5a93afd.TMP" />
+  </ItemGroup>
+
 </Project>

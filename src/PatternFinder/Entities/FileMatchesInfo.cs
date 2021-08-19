@@ -5,6 +5,7 @@ namespace PatternFinder.Entities
 {
    public class FileMatchesInfo
    {
+      private readonly object _locker = new();
       public FileInfo FileInfo { get; set; }
       public List<LineMatchInfo> Matches { get; init; } = new List<LineMatchInfo>();
       public bool Success => Matches.Count > 0;
@@ -18,20 +19,29 @@ namespace PatternFinder.Entities
          FileInfo = fileInfo;
       }
 
-      public void AddMatch(LineMatchInfo match)
+      public void AddMatch(LineMatchInfo matchInfo)
       {
-         if (match is null)
+         if (matchInfo is null || matchInfo.Matches.Count < 1)
             return;
 
-         Matches.Add(match);
+         AddThreadSafe(matchInfo);
       }
 
       public void AddMatches(List<LineMatchInfo> matchInfos)
       {
-         if (!(matchInfos?.Count > 0))
+         if (matchInfos is null)
             return;
 
-         Matches.AddRange(matchInfos);
+         foreach (var matchInfo in matchInfos)
+         {
+            AddMatch(matchInfo);
+         }
+      }
+
+      private void AddThreadSafe(LineMatchInfo matchInfo)
+      {
+         lock (_locker)
+            Matches.Add(matchInfo);
       }
 
       public override int GetHashCode()

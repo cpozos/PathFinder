@@ -19,6 +19,8 @@ namespace Test
          foreach (var match in results)
          {
             var info = match.FileInfo;
+            var replacer = PatternReplacerBuilder.Build(match, "HOLA");
+            replacer.ReplaceAsync();
          }
       }
    }
