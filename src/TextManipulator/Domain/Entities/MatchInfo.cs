@@ -1,4 +1,4 @@
-﻿namespace PatternFinder.Entities
+﻿namespace TextManipulator.Domain.Entities
 {
    public class MatchInfo
    {

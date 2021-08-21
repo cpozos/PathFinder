@@ -1,6 +1,6 @@
-﻿using PatternFinder.Entities;
+﻿using TextManipulator.Domain.Entities;
 
-namespace PatternFinder.Interfaces
+namespace TextManipulator.Domain.Interfaces
 {
    public interface ILinePatternMatcher
    {

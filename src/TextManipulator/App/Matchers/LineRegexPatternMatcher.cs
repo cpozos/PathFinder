@@ -1,7 +1,8 @@
 ﻿using System.Text.RegularExpressions;
-using PatternFinder.Interfaces;
+using TextManipulator.Domain.Entities;
+using TextManipulator.Domain.Interfaces;
 
-namespace PatternFinder.Entities
+namespace TextManipulator.App
 {
    public class LineRegexPatternMatcher : ILinePatternMatcher
    {

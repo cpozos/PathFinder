@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using TextManipulator.App;
 
-namespace PatternFinder
+namespace TextManipulator.Infraestructure
 {
    public class FilesProvider
    {

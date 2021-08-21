@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using PatternFinder;
-using PatternFinder.Configuration;
-using PatternFinder.Entities;
+using TextManipulator.App;
+using TextManipulator.App.Configuration;
+using TextManipulator.Domain.Entities;
 
 namespace Test
 {
@@ -12,13 +12,14 @@ namespace Test
          var dirConfig = new PathNode(@"D:\TextFinderTestDir");
          var filterConfig = new FilterConfiguration("!*.txt;*.py", "!dir*");
 
-
          var finder = PatternFinderEngineBuilder.Build("Hola", dirConfig, filterConfig);
          var results = await finder.FindMatchesAsync();
 
          foreach (var match in results)
          {
             var info = match.FileInfo;
+            var replacer = PatternReplacerBuilder.Build(match, "HOLA");
+            replacer.ReplaceAsync();
          }
       }
    }

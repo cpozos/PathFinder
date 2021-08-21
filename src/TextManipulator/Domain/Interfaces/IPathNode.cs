@@ -1,4 +1,4 @@
-﻿namespace PatternFinder.Interfaces
+﻿namespace TextManipulator.Domain.Interfaces
 {
    public interface IPathNode
    {

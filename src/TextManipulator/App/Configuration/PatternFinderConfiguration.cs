@@ -1,7 +1,7 @@
-﻿using PatternFinder.Interfaces;
+﻿using TextManipulator.Domain.Interfaces;
 using System;
 
-namespace PatternFinder.Configuration
+namespace TextManipulator.App.Configuration
 {
    public record PatternFinderConfiguration
    {

@@ -1,8 +1,8 @@
-﻿using PatternFinder.Configuration;
-using PatternFinder.Entities;
-using PatternFinder.Interfaces;
+﻿using TextManipulator.App.Configuration;
+using TextManipulator.Domain.Entities;
+using TextManipulator.Domain.Interfaces;
 
-namespace PatternFinder
+namespace TextManipulator.App
 {
    public class PatternFinderEngineBuilder
    {

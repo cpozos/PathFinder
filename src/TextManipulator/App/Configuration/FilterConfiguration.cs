@@ -1,4 +1,4 @@
-﻿namespace PatternFinder.Configuration
+﻿namespace TextManipulator.App.Configuration
 {
    public class FilterConfiguration
    {

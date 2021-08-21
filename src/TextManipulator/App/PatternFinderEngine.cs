@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using PatternFinder.Entities;
-using PatternFinder.Configuration;
-using System.Linq;
+using TextManipulator.Domain.Entities;
+using TextManipulator.App.Configuration;
+using TextManipulator.Infraestructure;
 
-namespace PatternFinder
+namespace TextManipulator.App
 {
    public class PatternFinderEngine
    {
@@ -60,18 +60,11 @@ namespace PatternFinder
          return await Task.Run(() =>
          {
             var matchesInfo = new FileMatchesInfo(fileInfo);
-            object locker = new();
 
-            Parallel.ForEach(System.IO.File.ReadAllLines(fileInfo.FullName), () => new List<LineMatchInfo>(), (line, status, index, list) =>
+            Parallel.ForEach(System.IO.File.ReadAllLines(fileInfo.FullName), (line, status, index) =>
             {
                var matches = _configuration.Matcher.Match(line, (uint)index);
-               list.Add(matches);
-               return list;
-            },
-            (finalResult) =>
-            {
-               lock (locker)
-                  matchesInfo.AddMatches(finalResult);
+               matchesInfo.AddMatch(matches);
             });
 
             return matchesInfo;
