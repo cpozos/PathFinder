@@ -1,9 +1,9 @@
-﻿using PatternFinder.Configuration;
-using PatternFinder.Entities;
-using PatternFinder.Interfaces;
+﻿using TextManipulator.Configuration;
+using TextManipulator.Entities;
+using TextManipulator.Interfaces;
 using System.Collections.Generic;
 
-namespace PatternFinder
+namespace TextManipulator
 {
    public class PatternReplacerBuilder
    {

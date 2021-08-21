@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using PatternFinder;
-using PatternFinder.Configuration;
-using PatternFinder.Entities;
+using TextManipulator;
+using TextManipulator.Configuration;
+using TextManipulator.Entities;
 
 namespace Test
 {

@@ -1,6 +1,6 @@
-﻿using PatternFinder.Entities;
+﻿using TextManipulator.Entities;
 
-namespace PatternFinder.Interfaces
+namespace TextManipulator.Interfaces
 {
    public interface IMatchReplacer
    {

@@ -1,6 +1,6 @@
-﻿using PatternFinder.Interfaces;
+﻿using TextManipulator.Interfaces;
 
-namespace PatternFinder.Entities
+namespace TextManipulator.Entities
 {
    public class FileReplaceInfo
    {

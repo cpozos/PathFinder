@@ -1,7 +1,7 @@
-﻿using PatternFinder.Interfaces;
+﻿using TextManipulator.Interfaces;
 using System.IO;
 
-namespace PatternFinder.Entities
+namespace TextManipulator.Entities
 {
    public class PathNode : IPathNode
    {

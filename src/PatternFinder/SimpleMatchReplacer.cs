@@ -1,7 +1,7 @@
-﻿using PatternFinder.Entities;
-using PatternFinder.Interfaces;
+﻿using TextManipulator.Entities;
+using TextManipulator.Interfaces;
 
-namespace PatternFinder
+namespace TextManipulator
 {
    public class SimpleMatchReplacer : IMatchReplacer
    {

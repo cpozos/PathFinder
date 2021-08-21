@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31313.79
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatternFinder", "PatternFinder\PatternFinder.csproj", "{2A52FFC7-B5E6-455F-8D40-C2BC6C520E41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TextManipulator", "PatternFinder\TextManipulator.csproj", "{2A52FFC7-B5E6-455F-8D40-C2BC6C520E41}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatternFinder.Test", "PatternFinder.Test\PatternFinder.Test.csproj", "{A842F3E0-7067-42FB-87FF-A2500CC439B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TextManipulator.Test", "PatternFinder.Test\TextManipulator.Test.csproj", "{A842F3E0-7067-42FB-87FF-A2500CC439B7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{30275162-E5B7-49F1-99C6-01E027B66C37}"
 EndProject
