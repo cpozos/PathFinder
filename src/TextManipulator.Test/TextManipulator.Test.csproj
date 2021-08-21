@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PatternFinder\TextManipulator.csproj" />
+    <ProjectReference Include="..\TextManipulator\TextManipulator.csproj" />
   </ItemGroup>
 
 </Project>
