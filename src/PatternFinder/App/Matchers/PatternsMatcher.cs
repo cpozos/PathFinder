@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace TextManipulator
+namespace TextManipulator.App
 {
    public class PatternsMatcher
    {

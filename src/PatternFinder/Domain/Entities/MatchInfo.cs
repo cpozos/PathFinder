@@ -1,4 +1,4 @@
-﻿namespace TextManipulator.Entities
+﻿namespace TextManipulator.Domain.Entities
 {
    public class MatchInfo
    {

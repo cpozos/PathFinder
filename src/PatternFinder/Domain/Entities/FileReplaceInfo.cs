@@ -1,6 +1,6 @@
-﻿using TextManipulator.Interfaces;
+﻿using TextManipulator.Domain.Interfaces;
 
-namespace TextManipulator.Entities
+namespace TextManipulator.Domain.Entities
 {
    public class FileReplaceInfo
    {

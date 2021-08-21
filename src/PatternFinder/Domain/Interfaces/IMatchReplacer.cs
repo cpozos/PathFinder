@@ -1,6 +1,6 @@
-﻿using TextManipulator.Entities;
+﻿using TextManipulator.Domain.Entities;
 
-namespace TextManipulator.Interfaces
+namespace TextManipulator.Domain.Interfaces
 {
    public interface IMatchReplacer
    {

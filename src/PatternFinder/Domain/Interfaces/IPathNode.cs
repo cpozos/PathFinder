@@ -1,4 +1,4 @@
-﻿namespace TextManipulator.Interfaces
+﻿namespace TextManipulator.Domain.Interfaces
 {
    public interface IPathNode
    {

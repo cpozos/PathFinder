@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace TextManipulator.Entities
+namespace TextManipulator.Domain.Entities
 {
    public class FileMatchesInfo
    {

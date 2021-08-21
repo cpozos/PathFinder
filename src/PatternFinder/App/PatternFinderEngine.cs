@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using TextManipulator.Entities;
-using TextManipulator.Configuration;
-using System.Linq;
+using TextManipulator.Domain.Entities;
+using TextManipulator.App.Configuration;
+using TextManipulator.Infraestructure;
 
-namespace TextManipulator
+namespace TextManipulator.App
 {
    public class PatternFinderEngine
    {

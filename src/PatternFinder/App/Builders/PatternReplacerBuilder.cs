@@ -1,9 +1,8 @@
-﻿using TextManipulator.Configuration;
-using TextManipulator.Entities;
-using TextManipulator.Interfaces;
-using System.Collections.Generic;
+﻿using TextManipulator.App.Configuration;
+using TextManipulator.Domain.Entities;
+using TextManipulator.Domain.Interfaces;
 
-namespace TextManipulator
+namespace TextManipulator.App
 {
    public class PatternReplacerBuilder
    {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TextManipulator.Entities
+namespace TextManipulator.Domain.Entities
 {
    public class LineMatchInfo
    {

@@ -1,7 +1,7 @@
-﻿using TextManipulator.Entities;
-using TextManipulator.Interfaces;
+﻿using TextManipulator.Domain.Entities;
+using TextManipulator.Domain.Interfaces;
 
-namespace TextManipulator
+namespace TextManipulator.App
 {
    public class SimpleMatchReplacer : IMatchReplacer
    {

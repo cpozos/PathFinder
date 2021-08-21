@@ -1,7 +1,7 @@
-﻿using TextManipulator.Interfaces;
+﻿using TextManipulator.Domain.Interfaces;
 using System.IO;
 
-namespace TextManipulator.Entities
+namespace TextManipulator.Domain.Entities
 {
    public class PathNode : IPathNode
    {
