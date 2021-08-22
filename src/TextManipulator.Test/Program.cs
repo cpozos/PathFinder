@@ -22,6 +22,5 @@ namespace Test
             replacer.ReplaceAsync();
          }
       }
-
    }
 }
