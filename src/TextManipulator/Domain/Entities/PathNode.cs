@@ -1,6 +1,7 @@
 ﻿using TextManipulator.Domain.Interfaces;
 using System.IO;
 
+
 namespace TextManipulator.Domain.Entities
 {
    public class PathNode : IPathNode
