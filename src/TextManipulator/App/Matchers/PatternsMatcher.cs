@@ -1,10 +1,11 @@
 ﻿using System.Text.RegularExpressions;
+using TextManipulator.App.Interfaces;
 
 namespace TextManipulator.App
 {
-   public class PatternsMatcher
+   public class PatternsMatcher : IPatternsMatcher
    {
-      public static bool AnyMatch(string name, string[] patterns)
+      public bool MatchAnyPattern(string value, string[] patterns)
       {
          bool matched = false;
          foreach (var pattern in patterns)
@@ -13,12 +14,12 @@ namespace TextManipulator.App
             if (pattern.StartsWith('!'))
             {
                regex = new Regex(pattern[1..]);
-               matched = !regex.IsMatch(name);
+               matched = !regex.IsMatch(value);
             }
             else
             {
                regex = new Regex(pattern);
-               matched = regex.IsMatch(name);
+               matched = regex.IsMatch(value);
             }
 
             if (matched)

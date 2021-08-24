@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using TextManipulator.Domain.Entities;
 using TextManipulator.App.Configuration;
 using TextManipulator.Infraestructure;
+using TextManipulator.App.Interfaces;
 
 namespace TextManipulator.App
 {
@@ -11,11 +12,15 @@ namespace TextManipulator.App
       private static readonly object listLocker = new();
       private readonly SortedList<int, FileMatchesInfo> _matchesList = new();
       private readonly PatternFinderConfiguration _configuration;
-      
+      private readonly IFilesProvider _filesProvider;
+
       public bool IsDirectory => _configuration.PathNode.IsDirectory;
 
-      internal PatternFinderEngine(PatternFinderConfiguration config)
-         => _configuration = config;
+      internal PatternFinderEngine(PatternFinderConfiguration config, IFilesProvider filesProvider)
+      {
+         _configuration = config;
+         _filesProvider = filesProvider;
+      }
 
       public async Task<IEnumerable<FileMatchesInfo>> FindMatchesAsync()
       {
@@ -35,7 +40,7 @@ namespace TextManipulator.App
       {
          var path = _configuration.PathNode.Path;
 
-         var files = FilesProvider.GetFiles(path, _configuration.FilterConfiguration.FilesFilterPattern, _configuration.FilterConfiguration.DirectoriesFilterPattern);
+         var files = _filesProvider.GetFiles(path, _configuration.FilterConfiguration.FilesFilterPattern, _configuration.FilterConfiguration.DirectoriesFilterPattern);
 
          Parallel.ForEach(files, () => new FileMatchesInfo(),
          (file, state, matchesInfo) =>
