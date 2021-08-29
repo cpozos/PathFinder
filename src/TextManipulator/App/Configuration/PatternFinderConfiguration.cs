@@ -7,13 +7,13 @@ namespace TextManipulator.App.Configuration
    {
       public IPathNode PathNode { get; init; }
       public FilterConfiguration FilterConfiguration { get; init; }
-      public ILinePatternMatcher Matcher { get; init; }
+      public ILinePatternMatcher LineMatcher { get; init; }
 
       internal PatternFinderConfiguration(IPathNode pPathNode, FilterConfiguration filterConfiguration, ILinePatternMatcher matcher)
       {
          PathNode = pPathNode;
          FilterConfiguration = filterConfiguration;
-         Matcher = matcher;
+         LineMatcher = matcher;
 
          ValidateConfiguration(this);
       }
@@ -23,8 +23,8 @@ namespace TextManipulator.App.Configuration
          if (config is null)
             throw new ArgumentNullException("Settings are null");
 
-         if (config.Matcher is null)
-            throw new ArgumentNullException($"{nameof(config.Matcher)} is null");
+         if (config.LineMatcher is null)
+            throw new ArgumentNullException($"{nameof(config.LineMatcher)} is null");
 
          if (config.PathNode is null)
             throw new ArgumentNullException($"{nameof(config.PathNode)} is null");

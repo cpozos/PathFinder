@@ -4,6 +4,7 @@ using TextManipulator.Domain.Entities;
 using TextManipulator.App.Configuration;
 using TextManipulator.Infraestructure;
 using TextManipulator.App.Interfaces;
+using TextManipulator.App.Matchers;
 
 namespace TextManipulator.App
 {
@@ -28,52 +29,15 @@ namespace TextManipulator.App
 
          if (IsDirectory)
          {
-            return await Task.Run(() => FindMatchesInsideDirectory());
+            return await FindMatchesInDirectoryAsync();
          }
-
-         var fileMatches = await GetMatchesInfoAsync(new System.IO.FileInfo(_configuration.PathNode.Path));
-         _matchesList.Add(fileMatches.GetHashCode(), fileMatches);
+         else
+         {
+            var fileMatches = await GetMatchesInfoAsync(new System.IO.FileInfo(_configuration.PathNode.Path));
+            AddMatches(fileMatches);
+         }
+         
          return GetFoundMatches();
-      }
-
-      private IEnumerable<FileMatchesInfo> FindMatchesInsideDirectory()
-      {
-         var path = _configuration.PathNode.Path;
-
-         var files = _filesProvider.GetFiles(path, _configuration.FilterConfiguration.FilesFilterPattern, _configuration.FilterConfiguration.DirectoriesFilterPattern);
-
-         Parallel.ForEach(files, () => new FileMatchesInfo(),
-         (file, state, matchesInfo) =>
-         {
-            matchesInfo = GetMatchesInfoAsync(file).GetAwaiter().GetResult();
-            return matchesInfo;
-         },
-         (finalMatchesInfo) =>
-         {
-            if (finalMatchesInfo.Success)
-            {
-               lock (listLocker)
-                  _matchesList.Add(finalMatchesInfo.GetHashCode(), finalMatchesInfo);
-            }
-         });
-
-         return GetFoundMatches();
-      }
-
-      private async Task<FileMatchesInfo> GetMatchesInfoAsync(System.IO.FileInfo fileInfo)
-      {
-         return await Task.Run(() =>
-         {
-            var matchesInfo = new FileMatchesInfo(fileInfo);
-
-            Parallel.ForEach(System.IO.File.ReadAllLines(fileInfo.FullName), (line, status, index) =>
-            {
-               var matches = _configuration.Matcher.Match(line, (uint)index);
-               matchesInfo.AddMatch(matches);
-            });
-
-            return matchesInfo;
-         });
       }
 
       public IEnumerable<FileMatchesInfo> GetFoundMatches()
@@ -82,6 +46,44 @@ namespace TextManipulator.App
          {
             yield return kvp.Value;
          }
+      }
+
+      private IEnumerable<FileMatchesInfo> FindMatchesInsideDirectory()
+      {
+         var path = _configuration.PathNode.Path;
+
+         var files = _filesProvider.GetFiles(path, _configuration.FilterConfiguration.FilesFilterPattern, _configuration.FilterConfiguration.DirectoriesFilterPattern);
+
+         Parallel.ForEach(files, () => new FileMatchesInfo(), (file, state, matchesInfo) =>
+         {
+            matchesInfo = GetMatchesInfoAsync(file).GetAwaiter().GetResult();
+            return matchesInfo;
+         },
+         (finalMatchesInfo) =>
+         {
+            AddMatches(finalMatchesInfo);
+         });
+
+         return GetFoundMatches();
+      }
+
+      private async Task<FileMatchesInfo> GetMatchesInfoAsync(System.IO.FileInfo fileInfo)
+      {
+         return await Task.Run(() => new FileLineMatcher().Match(fileInfo, _configuration.LineMatcher));
+      }
+
+      private async Task<IEnumerable<FileMatchesInfo>> FindMatchesInDirectoryAsync()
+      {
+         return await Task.Run(() => FindMatchesInsideDirectory());
+      }
+
+      private void AddMatches(FileMatchesInfo value)
+      {
+         if (!value.Success)
+            return;
+
+         lock (listLocker)
+            _matchesList.Add(value.GetHashCode(), value);
       }
    }
 }
