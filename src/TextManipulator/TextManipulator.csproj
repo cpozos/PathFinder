@@ -2,6 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <PackageId>FileTextManipulator</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>cpozos</Authors>
+    <Title></Title>
+    <Description>Provides a finder tool that can be used to find patterns inside files under directories.
+Also, a replacer tool is exposed so that the results can be replaced with the provided values or rules.</Description>
+    <RepositoryUrl>https://github.com/cpozos/PatternFinder.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
-
+  
 </Project>

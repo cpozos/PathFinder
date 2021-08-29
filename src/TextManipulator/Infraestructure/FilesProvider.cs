@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using TextManipulator.App;
 using TextManipulator.App.Interfaces;
 
 namespace TextManipulator.Infraestructure
