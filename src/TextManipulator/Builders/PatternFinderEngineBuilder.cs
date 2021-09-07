@@ -15,12 +15,12 @@ namespace TextManipulator.App
          FilterConfiguration pFilterConfig = null)
       {
          var filterConfig = pFilterConfig ?? new FilterConfiguration();
-         return new PatternFinderEngine(new(pPathNode, filterConfig, pMatcher), filesProvider);
+         return new PatternFinderEngine(new(pPathNode, filesProvider, filterConfig, pMatcher));
       }
 
       public static PatternFinderEngine Build(IPathNode pPathNode, ILinePatternMatcher pMatcher, FilterConfiguration pFilterConfig = null)
       {
-         return Build(pPathNode, pMatcher, new FilesProvider(new PatternsMatcher()), pFilterConfig);
+         return Build(pPathNode, pMatcher, new FilesProvider(new PatternsMatcher(), pPathNode), pFilterConfig);
       }
 
       public static PatternFinderEngine Build(string pPattern, IPathNode pPathNode, FilterConfiguration pFilterConfig = null)

@@ -1,20 +1,39 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using TextManipulator.App.Interfaces;
+using TextManipulator.Domain.Interfaces;
 
 namespace TextManipulator.Infraestructure
 {
    public class FilesProvider : IFilesProvider
    {
       private readonly IPatternsMatcher _dirNameMatcher;
+      private readonly IPathNode _pathNode;
 
-      public FilesProvider(IPatternsMatcher dirNameMatcher)
+      public FilesProvider(IPatternsMatcher dirNameMatcher, IPathNode pathNode)
       {
          _dirNameMatcher = dirNameMatcher;
+         _pathNode = pathNode;
       }
 
-      public IEnumerable<System.IO.FileInfo> GetFiles(string path, string[] filePatterns, string[] dirPatterns)
+      public IEnumerable<FileInfo> GetFiles(string[] filePatterns, string[] dirPatterns)
       {
-         var dirInfo = new System.IO.DirectoryInfo(path);
+         if (_pathNode.IsDirectory)
+         {
+            if (filePatterns is null)
+               filePatterns = new string[] { "*.*" };
+
+            return GetFilesFromDirectory(filePatterns, dirPatterns);
+         }
+         else
+         {
+            return GetFile();
+         }
+      }
+
+      private IEnumerable<FileInfo> GetFilesFromDirectory(string[] filePatterns, string[] dirPatterns)
+      {
+         var dirInfo = new DirectoryInfo(_pathNode.Path);
 
          foreach (var pattern in filePatterns)
          {
@@ -31,6 +50,11 @@ namespace TextManipulator.Infraestructure
                   yield return file;
             }
          }
+      }
+
+      private IEnumerable<FileInfo> GetFile()
+      {
+         return new List<FileInfo>() { new FileInfo(_pathNode.Path) };
       }
    }
 }

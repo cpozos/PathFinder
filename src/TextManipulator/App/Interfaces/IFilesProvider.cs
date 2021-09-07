@@ -4,6 +4,6 @@ namespace TextManipulator.App.Interfaces
 {
    public interface IFilesProvider
    {
-      public IEnumerable<System.IO.FileInfo> GetFiles(string path, string[] filePatterns, string[] dirPatterns);
+      public IEnumerable<System.IO.FileInfo> GetFiles(string[] filePatterns, string[] dirPatterns);
    }
 }
