@@ -31,7 +31,7 @@ namespace TextManipulator.App
 
                lineMatches.Matches.Add(new MatchInfo
                {
-                  Column = (uint)match.Index,
+                  Column = match.Index,
                   Value = match.Value
                });
             }

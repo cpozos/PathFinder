@@ -46,8 +46,8 @@ namespace TextManipulator.App
          while (replaced < matchesInfo.Count)
          {
             var matchInfo = matchesInfo[replaced];
-            sb.Remove((int)matchInfo.Column, matchInfo.Value.Length);
-            sb.Insert((int)matchInfo.Column, matchReplacer.Replace(matchInfo));
+            sb.Remove(matchInfo.Column, matchInfo.Value.Length);
+            sb.Insert(matchInfo.Column, matchReplacer.Replace(matchInfo));
             replaced++;
          }
 
