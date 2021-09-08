@@ -1,4 +1,4 @@
-﻿namespace TextManipulator.App.Configuration
+﻿namespace TextManipulator.App.Configurations
 {
    public class FilterConfiguration
    {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using TextManipulator.Domain.Entities;
-using TextManipulator.App.Configuration;
+using TextManipulator.App.Configurations;
 using TextManipulator.Infraestructure;
 using TextManipulator.App.Interfaces;
 using TextManipulator.App.Matchers;

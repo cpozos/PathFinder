@@ -1,4 +1,4 @@
-﻿using TextManipulator.App.Configuration;
+﻿using TextManipulator.App.Configurations;
 using TextManipulator.Domain.Entities;
 using TextManipulator.Domain.Interfaces;
 using System.Collections.Generic;

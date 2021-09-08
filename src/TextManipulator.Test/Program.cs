@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using TextManipulator.App;
-using TextManipulator.App.Configuration;
+using TextManipulator.App.Configurations;
 using TextManipulator.Domain.Entities;
 
 namespace Test

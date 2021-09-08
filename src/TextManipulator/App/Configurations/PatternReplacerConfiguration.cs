@@ -2,7 +2,7 @@
 using TextManipulator.Domain.Interfaces;
 using System.Collections.Generic;
 
-namespace TextManipulator.App.Configuration
+namespace TextManipulator.App.Configurations
 {
    public class PatternReplacerConfiguration
    {
