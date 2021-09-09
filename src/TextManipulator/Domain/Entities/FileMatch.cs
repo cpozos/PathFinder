@@ -5,5 +5,6 @@
       public FilePosition StartPosition { get; set; } = new FilePosition();
       public FilePosition EndPosition { get; set; } = new FilePosition();
       public string Value { get; set; }
+      public uint Id => (uint)(StartPosition.LineIndex + StartPosition.ColumnIndex);
    }
 }

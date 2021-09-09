@@ -1,9 +1,10 @@
-﻿using TextManipulator.Domain.Entities;
+﻿using System.Collections.Generic;
+using TextManipulator.Domain.Entities;
 
 namespace TextManipulator.Domain.Interfaces
 {
    public interface ILinePatternMatcher
    {
-      LineMatchInfo Match(string line, uint lineIndex);
+      IEnumerable<FileMatch> Match(string line, int lineIndex);
    }
 }

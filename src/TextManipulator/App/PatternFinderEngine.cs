@@ -11,7 +11,7 @@ namespace TextManipulator.App
    public class PatternFinderEngine
    {
       private static readonly object listLocker = new();
-      private readonly SortedList<int, FileMatchesInfo> _matchesList = new();
+      private readonly SortedList<int, FileMatches> _matchesList = new();
       private readonly PatternFinderConfiguration _configuration;
 
       public bool IsDirectory => _configuration.PathNode.IsDirectory;
@@ -21,21 +21,21 @@ namespace TextManipulator.App
          _configuration = config;
       }
 
-      public async Task<IEnumerable<FileMatchesInfo>> FindMatchesAsync()
+      public async Task<IEnumerable<FileMatches>> FindMatchesAsync()
       {
          _matchesList.Clear();
 
          return await FindMatchesInDirectoryAsync();
       }
 
-      private IEnumerable<FileMatchesInfo> FindMatchesInDirectory()
+      private IEnumerable<FileMatches> FindMatchesInDirectory()
       {
          var path = _configuration.PathNode.Path;
          var provider = _configuration.FilesProvider;
 
          var files = provider.GetFiles(_configuration.FilterConfiguration.FilesFilterPattern, _configuration.FilterConfiguration.DirectoriesFilterPattern);
 
-         Parallel.ForEach(files, () => new FileMatchesInfo(), (file, state, matchesInfo) =>
+         Parallel.ForEach(files, () => new FileMatches(), (file, state, matchesInfo) =>
          {
             matchesInfo = GetMatchesInfoAsync(file).GetAwaiter().GetResult();
             return matchesInfo;
@@ -48,7 +48,7 @@ namespace TextManipulator.App
          return GetFoundMatches();
       }
 
-      public IEnumerable<FileMatchesInfo> GetFoundMatches()
+      public IEnumerable<FileMatches> GetFoundMatches()
       {
          foreach (var kvp in _matchesList)
          {
@@ -56,17 +56,17 @@ namespace TextManipulator.App
          }
       }
 
-      private async Task<FileMatchesInfo> GetMatchesInfoAsync(System.IO.FileInfo fileInfo)
+      private async Task<FileMatches> GetMatchesInfoAsync(System.IO.FileInfo fileInfo)
       {
-         return await Task.Run(() => new FileLineMatcher().Match(fileInfo, _configuration.LineMatcher));
+         return await Task.Run(() => _configuration.FilePatternMatcher.Match(fileInfo));
       }
 
-      private async Task<IEnumerable<FileMatchesInfo>> FindMatchesInDirectoryAsync()
+      private async Task<IEnumerable<FileMatches>> FindMatchesInDirectoryAsync()
       {
          return await Task.Run(() => FindMatchesInDirectory());
       }
 
-      private void AddMatches(FileMatchesInfo value)
+      private void AddMatches(FileMatches value)
       {
          if (!value.Success)
             return;

@@ -5,16 +5,23 @@ using TextManipulator.Domain.Interfaces;
 
 namespace TextManipulator.App.Matchers
 {
-   public class FileLineMatcher : IFileLineMatcher
+   public class FileLineMatcher : IFilePatternMatcher
    {
-      public FileMatchesInfo Match(FileInfo fileInfo, ILinePatternMatcher lineMatcher)
+      private readonly ILinePatternMatcher _lineMatcher;
+
+      public FileLineMatcher(ILinePatternMatcher lineMatcher)
       {
-         var matchesInfo = new FileMatchesInfo(fileInfo);
+         _lineMatcher = lineMatcher;
+      }
+
+      public FileMatches Match(FileInfo fileInfo)
+      {
+         var matchesInfo = new FileMatches(fileInfo);
 
          Parallel.ForEach(File.ReadLines(fileInfo.FullName), (line, status, index) =>
          {
-            var matches = lineMatcher.Match(line, (uint)index);
-            matchesInfo.AddMatch(matches);
+            var matches = _lineMatcher.Match(line, (int)index);
+            matchesInfo.Add(matches);
          });
 
          return matchesInfo;

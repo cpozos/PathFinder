@@ -2,8 +2,8 @@
 
 namespace TextManipulator.Domain.Interfaces
 {
-   public interface IMatchReplacer
+   public interface IFilePatternMatcher
    {
-      string Replace(FileMatch match);
+      FileMatches Match(System.IO.FileInfo fileInfo);
    }
 }

@@ -1,4 +1,5 @@
 ﻿using TextManipulator.App.Configurations;
+using TextManipulator.App.Replacers;
 using TextManipulator.Domain.Entities;
 using TextManipulator.Domain.Interfaces;
 
@@ -6,15 +7,16 @@ namespace TextManipulator.App
 {
    public class PatternReplacerBuilder
    {
-      public static PatternReplacer Build(FileMatchesInfo fileMatchesInfo, IMatchReplacer replacer, string filePath = null)
+      public static PatternReplacer Build(FileMatches pFileMatches, IMatchReplacer pReplacer, string pFilePath = null)
       {
-         FileReplaceInfo info = new(replacer, fileMatchesInfo);
-         return new PatternReplacer(new PatternReplacerConfiguration(info, filePath));
+         FileReplaceInfo info = new(pReplacer, pFileMatches);
+         return new PatternReplacer(new PatternReplacerConfiguration(info, pFilePath));
       }
 
-      public static PatternReplacer Build(FileMatchesInfo fileMatchesInfo, string newValue, string filePath = null)
+      public static PatternReplacer Build(FileMatches pFileMatches, string pNewValue, string pFilePath = null)
       {
-         return Build(fileMatchesInfo, new SimpleMatchReplacer(newValue), filePath);
+         var replacer = new SimpleMatchReplacer(pNewValue);
+         return Build(pFileMatches, replacer, pFilePath);
       }
    }
 }

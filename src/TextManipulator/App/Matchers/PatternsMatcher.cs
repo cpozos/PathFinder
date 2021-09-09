@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using TextManipulator.App.Interfaces;
 
-namespace TextManipulator.App
+namespace TextManipulator.App.Matchers
 {
    public class PatternsMatcher : IPatternsMatcher
    {

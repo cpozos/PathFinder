@@ -1,7 +1,7 @@
 ﻿using TextManipulator.Domain.Entities;
 using TextManipulator.Domain.Interfaces;
 
-namespace TextManipulator.App
+namespace TextManipulator.App.Replacers
 {
    public class SimpleMatchReplacer : IMatchReplacer
    {
@@ -10,7 +10,7 @@ namespace TextManipulator.App
       {
          _newValue = newValue;
       }
-      public string Replace(MatchInfo match)
+      public string Replace(FileMatch match)
          => _newValue;
    }
 }

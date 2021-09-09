@@ -1,8 +1,9 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using TextManipulator.Domain.Entities;
 using TextManipulator.Domain.Interfaces;
 
-namespace TextManipulator.App
+namespace TextManipulator.App.Matchers
 {
    public class LineRegexPatternMatcher : ILinePatternMatcher
    {
@@ -13,12 +14,9 @@ namespace TextManipulator.App
          _regex = new Regex(pattern);
       }
 
-      public LineMatchInfo Match(string line, uint lineIndex)
+      public IEnumerable<FileMatch> Match(string line, int lineIndex)
       {
-         var lineMatches = new LineMatchInfo
-         {
-            LineIndex = lineIndex
-         };
+         var lineMatches = new List<FileMatch>();
 
          var matches = _regex.Matches(line);
 
@@ -29,9 +27,13 @@ namespace TextManipulator.App
                if (!match.Success)
                   continue;
 
-               lineMatches.Matches.Add(new MatchInfo
+               var startPos = new FilePosition(lineIndex, match.Index);
+               var endPos = new FilePosition(lineIndex, match.Index + match.Length);
+
+               lineMatches.Add(new FileMatch
                {
-                  Column = match.Index,
+                  StartPosition = startPos,
+                  EndPosition = endPos,
                   Value = match.Value
                });
             }
